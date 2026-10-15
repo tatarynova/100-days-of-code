@@ -17,3 +17,4 @@ This would be updated with every new "day" completed.
 | Day 5 | Python Loops                       | Null                     |
 | Day 6 | Functions and Karel                | Null                     |
 | Day 7 | Hangman                            | Hangman game             |
+| Day 8 | Function Parameters                | Caesar Cipher            |
