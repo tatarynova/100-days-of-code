@@ -58,15 +58,11 @@ def BlackJackGame():
             if pScore > 21:
                 print("You lose!")
                 return
-            elif dScore > 21:
-                print("You win!")
-                return
             anotherCard = input("Type 'y' to get another card, type 'n' to pass: ")
             if anotherCard == 'y':
                 #taking out another card
                 player_hand.append(takeCard(listOfCards))
                 pScore = scoreCount(player_hand)
-                dScore = scoreCount(dealer_hand)
             if anotherCard == 'n':
                 break
 
