@@ -19,3 +19,4 @@ This would be updated with every new "day" completed.
 | Day 7 | Hangman                            | Hangman game             |
 | Day 8 | Function Parameters                | Caesar Cipher            |
 | Day 9 | Dictionary and Nesting             | Secret Auction           |
+| Day 10| Functions with Outputs             | Simple Calculator        |
