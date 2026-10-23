@@ -2,8 +2,14 @@ import random
 
 # TO-DO: add a print of logo
 
+#DECK OF CARDS
+def newDeck():
+    """
+    returns new deck of cards (full)
+    """
+    return [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 'Ace'] * 4
+
 #DRAW A CARD
-listOfCards = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 'Ace'] * 4
 def takeCard(deck):
     """
     contains full list of possible cards
@@ -17,75 +23,77 @@ def takeCard(deck):
 #COUNT SCORE
 def scoreCount(hand):
     score = 0
+    aceCount = 0
     for card in hand:
         if card == 'Ace':
             score += 11
-            # list['Ace']=11
-            if score > 21:
-                score-=10
-                # list['Ace'] = 1
+            aceCount += 1
         else:
             score += card
+    while score > 21 and aceCount > 0:
+        score -= 10
+        aceCount -= 1
+
     return score
 
 #BLACKJACK ITSELF
 def BlackJackGame():
     #print logo here
 
-    #first two draws of cards
-    #return 2 lists
+    #GET A DECK OF CARDS
+    deck = newDeck() #if a player wants to play a new game, it will start over
+
+    #FIRST TWO DRAWS OF CARDS
+    #returns 2 lists
     player_hand = []
     dealer_hand = []
     for i in range(2):
-        player_hand.append(takeCard(listOfCards))
-        dealer_hand.append(takeCard(listOfCards))
-
-    #tell how many Aces have been drawn
-    # aceCount = 0
-    # isAce = False #will use this in every count check
-    # for card in player_hand+dealer_hand:
-    #     if card == 'Ace':
-    #         isAce = True
-    #         aceCount += 1
+        player_hand.append(takeCard(deck))
+        dealer_hand.append(takeCard(deck))
 
     while True:
+        #no need for dealers score for now
         pScore = scoreCount(player_hand)
-        dScore = scoreCount(dealer_hand)
         print(f"Your hand: {player_hand}, current score: {pScore}")
         print(f"Dealer's first card: {dealer_hand[0]}")
 
-        while True:
-            if pScore > 21:
-                print("You lose!")
-                return
-            anotherCard = input("Type 'y' to get another card, type 'n' to pass: ")
-            if anotherCard == 'y':
-                #taking out another card
-                player_hand.append(takeCard(listOfCards))
-                pScore = scoreCount(player_hand)
-            if anotherCard == 'n':
-                break
+        if pScore > 21:
+            print("You went over 21, you lose!")
+            return
 
-        #FINAL COUNT
-        while dScore < 17:
-            dealer_hand.append(takeCard(listOfCards))
-            dScore = scoreCount(dealer_hand)
-        if dScore > pScore:
-            print("You lose!")
-            print(f"Dealer's hand: {dealer_hand}, count: {dScore}")
-            return
-        elif dScore == pScore:
-            print("Draw!")
-            print(f"Dealer's hand: {dealer_hand}, count: {dScore}")
-            return
-        else:
-            print("You win!")
-            print(f"Dealer's hand: {dealer_hand}, count: {dScore}")
-            return
+        anotherCard = input("Type 'y' to get another card, type 'n' to pass: ")
+        if anotherCard == 'y':
+            #taking out another card
+            player_hand.append(takeCard(deck))
+        if anotherCard == 'n':
+            break
+
+        #DEALERS TURN
+    dScore = scoreCount(dealer_hand)
+    while dScore < 17:
+        dealer_hand.append(takeCard(deck))
+        dScore = scoreCount(dealer_hand)
+
+        # FINAL COUNT
+    if dScore > 21 and pScore > 21:
+        print(f"Dealer's hand: {dealer_hand}, count: {dScore}")
+        print("You lose!")
+        print("==========================================================")
+    elif dScore > pScore:
+        print(f"Dealer's hand: {dealer_hand}, count: {dScore}")
+        print("You lose!")
+        print("==========================================================")
+    elif dScore == pScore:
+        print(f"Dealer's hand: {dealer_hand}, count: {dScore}")
+        print("Draw!")
+        print("==========================================================")
+    else:
+        print(f"Dealer's hand: {dealer_hand}, count: {dScore}")
+        print("You win!")
+        print("==========================================================")
 
 wantToPlay = ""
-while wantToPlay != 'y' and wantToPlay != 'n':
+while wantToPlay != 'n':
     wantToPlay = input("Do you want to play a game of 'BlackJack'? Type 'y' or 'n': ")
-
-if wantToPlay == 'y':
-    BlackJackGame()
+    if wantToPlay == 'y':
+        BlackJackGame()
